@@ -1,6 +1,6 @@
 *venv
 preprocessed_images
-descriptors.pkl
+*.pkl
 
 #### joe made this: https://goel.io/joe
 

@@ -104,7 +104,7 @@ def display_results(input_image_path, results, output_folder, grid_size=(2, 3), 
 
 
 if __name__ == "__main__":
-    input_image_path = "test-images/test-5.jpg"
+    input_image_path = "test-images/apparel.jpg"
     descriptors_file = "descriptors.pkl"
     output_folder = "preprocessed_images"
     
