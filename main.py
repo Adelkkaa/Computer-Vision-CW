@@ -6,6 +6,7 @@ from utils.ORB_preprocess import preprocess_images
 from utils.ORB_FTS import find_top_similar, display_results
 from utils.ORB_accuracy import calculate_accuracy
 from utils.CNN_FTS import find_top_similar_cnn, display_results_cnn, preprocess_images_cnn  # Импортируем новый функционал
+from utils.CNN_accuracy import calculate_metrics, display_results_table, plot_metrics
 
 # === ИНТЕРФЕЙС ===
 class ImageSearchApp:
@@ -54,16 +55,25 @@ class ImageSearchApp:
         messagebox.showinfo("Готово", "База данных обновлена!")
 
     def run_cnn_search(self):
-        """Запускает поиск с использованием CNN."""
         file_path = filedialog.askopenfilename(initialdir=self.input_folder, title="Выберите изображение",
-                                              filetypes=(("JPEG files", "*.jpg"), ("All files", "*.*")))
+                                            filetypes=(("JPEG files", "*.jpg"), ("All files", "*.*")))
         if file_path:
             top_matches = find_top_similar_cnn(file_path, self.cnn_descriptors_file, top_n=5)
             input_filename = os.path.basename(file_path)  # Получаем имя файла
-            # Вычисляем точность
-            accuracy, correct_matches = calculate_accuracy(input_filename, top_matches)
-            messagebox.showinfo("Точность (CNN)", f"Точность: {accuracy:.2f}% ({correct_matches} из 5)")
+
+            # Вычисляем точность и другие метрики
+            accuracy, recall, f1 = calculate_metrics(input_filename, top_matches)
+
+
+            # Отображаем результаты
+            messagebox.showinfo("Точность (CNN)", f"Accuracy: {accuracy:.2f}\n"
+                                                f"Recall: {recall:.2f}\n"
+                                                f"F1-Score: {f1:.2f}")
             display_results_cnn(file_path, top_matches, self.output_folder)
+
+            # Визуализируем метрики
+            plot_metrics(accuracy, recall, f1)
+            display_results_table(top_matches)
 
 # Запуск приложения
 if __name__ == "__main__":

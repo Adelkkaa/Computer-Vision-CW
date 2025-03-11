@@ -61,7 +61,7 @@ def find_top_similar_cnn(input_image_path, descriptors_file, top_n=5):
         results.append((similarity, filename))
 
     results.sort(reverse=True, key=lambda x: x[0])
-    return results[:top_n]
+    return results
 
 def display_results_cnn(input_image_path, results, output_folder, grid_size=(2, 3), image_size=(256, 256)):
     """Отображает результаты в цветном формате в виде сетки."""
@@ -73,7 +73,7 @@ def display_results_cnn(input_image_path, results, output_folder, grid_size=(2, 
     input_img_resized = cv2.resize(input_img, image_size)
     images = [input_img_resized]
 
-    for _, filename in results:
+    for _, filename in results[:5]:
         img_path = os.path.join(output_folder, filename)
         img = cv2.imread(img_path)
         if img is not None:
