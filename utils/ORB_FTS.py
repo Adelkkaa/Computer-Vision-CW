@@ -68,7 +68,7 @@ def find_top_similar(input_image_path, descriptors_file, top_n=5):
 
     results.sort(key=lambda x: x[0])
 
-    return results[:top_n]
+    return results
 
 def display_results(input_image_path, results, output_folder, grid_size=(2, 3), image_size=(256, 256)):
     """Отображает результаты в цветном формате в виде сетки."""
